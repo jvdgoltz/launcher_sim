@@ -1,0 +1,10 @@
+#this is data source for the rocket_sim module, don't change the order of the variables!
+lift-off angle [deg] = 90
+empty mass [kg] = 737675
+fuel mass [kg] = 2197125
+specific impulse [s] = 267.7
+mass flow [kg/s] = 12890
+drag coefficient [] = 0.585
+drag surface [m²] = 112.97
+time steps in [s] = 0.1
+maximum t [s] = 1000

@@ -1,0 +1,35 @@
+#this is data source for the rocket_sim module, don't change the order of the variables!
+
+No. of Stages =				3
+
+lift-off angle [deg] =		90
+time steps in [s] =			0.1
+maximum t [s] =				1000
+
+#Stage 1:
+empty mass 1 [kg] =			737675
+fuel mass 1 [kg] =			2197125
+specific impulse 1 [s] =	267.7
+mass flow 1 [kg/s] =		12890
+drag coefficient 1 [] =		0.585
+drag surface 1 [m²] =		112.97
+
+#Stage 2:
+empty mass 2 [kg] = 
+fuel mass 2 [kg] =
+specific impulse 2 [s] = 
+mass flow 2 [kg/s] =
+drag coefficient 2 [] =
+drag surface 2 [m²] =
+
+#Stage 3:
+empty mass 3 [kg] = 
+fuel mass 3 [kg] =
+specific impulse 3 [s] = 
+mass flow 3 [kg/s] =
+drag coefficient 3 [] =
+drag surface 3 [m²] =
+
+
+
+
