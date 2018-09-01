@@ -13,7 +13,7 @@ def reference(x,y,xmax,targetalt):
         y_ref = ymax
         ga_ref = 0
     return ga_ref, y_ref
-    
+
 def pitchrate(x,y,vx,vy,gamma,omega,targetvel,xmax,ymax,t_ctl,W,Z,T,Dx,Mf,mflw,M,t,t_fin):
 
     K1 = 2
@@ -28,13 +28,13 @@ def pitchrate(x,y,vx,vy,gamma,omega,targetvel,xmax,ymax,t_ctl,W,Z,T,Dx,Mf,mflw,M
 
         ay_req = -2*vy/(Mf/mflw) + (ymax-y)/(Mf/mflw)**2
         ax_req = (targetvel-vx)/(Mf/mflw)*0
-        
+
         Ry_req = ay_req *M *0
         Rx_req = ax_req *M
 
         a = (Ry_req+W-Z)/T
         b = (Rx_req-Dx) /T
-        
+
         K  = K1*(math.pi/2-ga_ref)/(ymax-y)
         deltaga = K  * (y_ref-y)
         ga_min = np.arcsin(a)
@@ -42,16 +42,16 @@ def pitchrate(x,y,vx,vy,gamma,omega,targetvel,xmax,ymax,t_ctl,W,Z,T,Dx,Mf,mflw,M
         if ga_req<ga_min:
             ga_req=ga_min
 
-        omega_ref   = K2 * (ga_req-gamma) 
+        omega_ref   = K2 * (ga_req-gamma)
 
     else:
         omega_ref = 0
     if omega>0:
-        alpha = 0    
+        alpha = 0
     else:
-        if T<>0:
+        if T!=0:
             alpha = K3 * (omega_ref - omega)
         else:
             alpha = 0
-    
+
     return alpha

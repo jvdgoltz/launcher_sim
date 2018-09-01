@@ -23,15 +23,15 @@ from math import sqrt, atan2, sin, cos, pi
 from xlrd import *
 import numpy as np
 import matplotlib.pyplot as plt
-import aerodynamics as aero
-import thrust as th
-import controls as ctl
-from isatmos import press
+import modules.aerodynamics as aero
+import modules.thrust as th
+import modules.controls as ctl
+from modules.isatmos import press
 
 #read out data source
 
 #filename=raw_input("Please enter the data source file name.")
-filename="Saturn5.xls"
+filename="launcher_data/Saturn5.xls"
 table = open_workbook(filename)
 sheet = table.sheet_by_name('Sheet')
 

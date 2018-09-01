@@ -1,5 +1,5 @@
 import math
-import isatmos as isa
+import modules.isatmos as isa
 Ra = 8314.
 
 def Tcb(T_f0,Mw,kappa,OFR,Hv):
@@ -23,7 +23,7 @@ def vdk(kappa):
     '''
     return math.sqrt(kappa*((kappa+1)/2)**((1+kappa)/(1-kappa)))
 
-    
+
 def mdot(At,pc,Tc,Mw,kappa):
     '''
     returns engine mass flow;
@@ -33,9 +33,9 @@ def mdot(At,pc,Tc,Mw,kappa):
     chamber temperature Tc,
     molecular weight Mw,
     propellant specific heat ratio kappa
-    '''    
+    '''
     return pc*At/(math.sqrt((Ra/Mw)*Tc)) * vdk(kappa)
-    
+
 def vexit(epsilon,Tc,Mw,kappa):
     '''
     returns engine exit velocity;
@@ -48,7 +48,7 @@ def vexit(epsilon,Tc,Mw,kappa):
     pr = pratio(epsilon,kappa)
     vexit = math.sqrt(2*kappa/(kappa-1) * Ra/Mw * Tc *(1-pr**((kappa-1)/kappa)) )
     return vexit
-    
+
 def pratio(epsilon,kappa):
     '''
     returns ratio between nozzle exit pressure and burning chamber pressure;
@@ -60,12 +60,12 @@ def pratio(epsilon,kappa):
     Gamma = vdk(kappa)
     pratio = 0                                                                  #initial guess
     f = (Gamma**2/((2*kappa/(kappa-1))*epsilon**2))**(kappa/2)
-    while f<>0:
+    while f!=0:
         f = (Gamma**2/((2*kappa/(kappa-1))*epsilon**2) + pratio**((1+kappa)/kappa))**(kappa/2) - pratio                                                                 #calculate f(x)
         fp = ((1+kappa)/kappa) * pratio**((1+kappa)/kappa -1) * (kappa/2) * (Gamma**2/((2*kappa/(kappa-1))*epsilon**2) + pratio**((1+kappa)/kappa))**(kappa/2-1) - 1    #calculate f'(x)
         pratio=pratio - f/fp                                                    #Newton's Method x_(n+1) = x_n - f(x_n) / f'(x_n)
     return pratio
-    
+
 def FT(mdot,ve,At,epsilon,pc,pratio,pa):
     '''
     returns engine thrust:
