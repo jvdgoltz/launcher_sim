@@ -19,7 +19,7 @@
      #Mach number vs time
 	
 #import all necessary funtions
-from math import sqrt, atan2, sin, cos, pi				
+from math import sqrt, atan2, sin, cos, pi
 from xlrd import *
 import numpy as np
 import matplotlib.pyplot as plt
@@ -70,7 +70,7 @@ for i in range(nstages):
     S.append(sheet.cell_value(18,1+i))
     t_ctl.append(sheet.cell_value(19,1+i))
     sepdur.append(sheet.cell_value(20,1+i))
-    
+
 
 At = np.divide(Ae,epsilon)
 pratio = nstages * [0]
@@ -92,7 +92,7 @@ vx=v*cos(gamma)
 vy=v*sin(gamma)
 rho=1.225
 p0=101325.
-g0=9.81                        
+g0=9.81
 q=0.5*rho*v*v
 D0=cd[0]*q*S[0]
 Dx=-cd[0]*0.5*rho*vx*v*S[0]
@@ -155,43 +155,43 @@ for i in range(nstages):
             vyk = [vy]
             xk  = [x]
             yk  = [y]
-            
+
             for k in range(3):
-                             
+
                 g=g0*(6371000/(6371000+yk[-1]))**2
                 W=m*g
-            
-                
+
+
                 ve = th.vexit(epsilon[i], Tc[i], Mw[i], kappa[i])
                 pa = press(yk[-1])
-                
+
                 if Z<W:
                     T = th.FT(mflw,ve,At[i],epsilon[i],pc[i],pratio[i],pa)
                 else:
                     T = 0
                 Tk.append(T)
                 Tx=T*cos(gamma)
-                Ty=T*sin(gamma)                 
-                
+                Ty=T*sin(gamma)
+
                 aerodyn = aero.drag(yk[-1],vxk[-1],vyk[-1],cd[i],S[i])
                 Dx = aerodyn[0]
                 Dy = aerodyn[1]
                 M  = aerodyn[2]
                 q  = aerodyn[3]
-                
-            
-                Z=m*vxk[-1]*vxk[-1]/(yk[-1]+6371000)            
-            
+
+
+                Z=m*vxk[-1]*vxk[-1]/(yk[-1]+6371000)
+
                 Rx=Dx+Tx                #Resulting Force on the Rocket
                 Ry=Dy+Ty-W+Z
-            
+
                 axk.append(Rx/m)                 #acceleration due to Resultant
                 ayk.append(Ry/m)
-                
-                
+
+
                 vxk.append(vx+axk[-1]*dt)
                 vyk.append(vy+ayk[-1]*dt)
-                
+
                 xk.append(x+vxk[-1]*dt)
                 yk.append(y+vyk[-1]*dt)
 
@@ -201,41 +201,41 @@ for i in range(nstages):
             ay = ayk[-1]
             a=sqrt(ay*ay+ax*ax)
             atab.append(a)
-            
-            Drag.append(np.sqrt(Dx*Dx+Dy*Dy))            
-            
+
+            Drag.append(np.sqrt(Dx*Dx+Dy*Dy))
+
             vx = vxk[-1]
             vy = vyk[-1]
             v=sqrt(vx*vx+vy*vy)
             vtab.append(v)
-            
+
             x  =  xk[-1]
             y  =  yk[-1]
             xtab.append(x)
             ytab.append(y)
-            
+
             Mtab.append(M)
-            qtab.append(q)            
+            qtab.append(q)
             y_ref.append(ctl.reference(x,y,xmax,targetalt)[1])
             ga_ref.append(ctl.reference(x,y,xmax,targetalt)[0])
             alpha = ctl.pitchrate(x,y,vx,vy,gamma,omega,targetvel,xmax,targetalt,t_ctl[i],W,Z,T,Dx,sum(fm),mflw,m,t,11*60+40)
             omega = omega + alpha*dt
             gamma = gamma + omega*dt
-            
+
             gammab.append(gamma)
-            
+
             tsep = ttab[-1]
 
     while fm[i]<=0  and y>=0 and t<=tsep+sepdur[i]:  #  this loop is for the free flight phase after stage separation
             t = t + dt
             ttab.append(t)
-        
+
             m = sum(oem) + sum(fm) + payld
-        
+
             mtab.append(m)
-            
-            
-            
+
+
+
             g=g0*(6371000/(6371000+y))**2
             W=m*g
             try:
@@ -248,9 +248,9 @@ for i in range(nstages):
             q  = aerodyn[3]
             Mtab.append(M)
             qtab.append(q)
-            
+
             Z=m*vx*vx/(y+6371000)
-            
+
             Rx=Dx
             Ry=Dy-W+Z
             Ttab.append(0)
@@ -258,16 +258,16 @@ for i in range(nstages):
             ay=Ry/m
             a=sqrt(ay*ay+ax*ax)
             atab.append(a)
-            
-            Drag.append(np.sqrt(Dx*Dx+Dy*Dy))                
-            
+
+            Drag.append(np.sqrt(Dx*Dx+Dy*Dy))
+
             vx=(vx+ax*dt)
             vy=(vy+ay*dt)
-            
+
             vtab.append(v)
             x=x+vx*dt
             y=y+vy*dt
-            
+
             xtab.append(x)
             ytab.append(y)
             y_ref.append(ctl.reference(x,y,xmax,targetalt)[1])
@@ -315,10 +315,10 @@ plt.subplot(339)
 plt.plot(ttab, np.array(Drag)/1000) 
 plt.title("Drag [kN] vs time [min]")
 
-print 'Orbit Insertion Velocity: ', round(targetvel), 'm/s'
-print 'Horizontal Velocity: ', round(vx), 'm/s'
-print 'Vertical Veloctity: ', round(vy), 'm/s'
-print 'Orbit Height: ', round(y/1000), 'km'
+print('Orbit Insertion Velocity: ', round(targetvel), 'm/s')
+print('Horizontal Velocity: ', round(vx), 'm/s')
+print('Vertical Veloctity: ', round(vy), 'm/s')
+print('Orbit Height: ', round(y/1000), 'km')
 
 plt.show()
 # Required Total Energy as function of orbit altitude
@@ -349,5 +349,5 @@ ax.plot(rid,Vid,zs=Etot)
 
 
 plt.show()
-print "[done]"
+print("[done]")
 
